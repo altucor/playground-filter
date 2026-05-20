@@ -105,6 +105,11 @@ public:
         return out;
     }
 
+    void filter()
+    {
+        // TODO: Get as argument here filter and call it's filtering function
+    }
+
 private:
     std::vector<Point> m_points;
 };
@@ -127,7 +132,7 @@ int main(int argc, char* argv[])
     auto csvFile = CsvFile(path.string());
 
     auto filter = Filter(filter_new());
-    std::vector<uint8_t> data;
+    std::vector<float> data;
     filter_process(filter.get(), data.data(), data.size());
 
     return 0;
