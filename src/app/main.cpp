@@ -21,7 +21,12 @@ using Filter = std::unique_ptr<filter_t, FilterDeleter>;
 
 struct Point
 {
-    Point(const std::string line)
+    Point(const std::string& line)
+    {
+        unmarshal(line);
+    }
+
+    void unmarshal(const std::string& line)
     {
         auto items = line | std::views::split(',') | std::ranges::to<std::vector<std::string>>();
         if (items.size() < 2)
@@ -32,7 +37,12 @@ struct Point
         time = std::stof(items[0]);
         input = std::stof(items[1]);
 
-        std::print("Point: time[{:08f}] input[{:08f}]\n", time, input);
+        // std::print("Point: time[{:08f}] input[{:08f}]\n", time, input);
+    }
+
+    void marshal(std::ofstream& file) const
+    {
+        file << std::format("{:.3f},{:.6f},{:.6f}\n", time, input, output);
     }
 
     float time = 0.0f;
@@ -105,9 +115,36 @@ public:
         return out;
     }
 
-    void filter()
+    void setOutputSequence(const std::vector<float>& outputBuffer)
     {
-        // TODO: Get as argument here filter and call it's filtering function
+        if (outputBuffer.size() != m_points.size())
+        {
+            std::print("Error output buffer size does not match\n");
+            return;
+        }
+
+        auto outputIter = outputBuffer.begin();
+
+        for (auto& point : m_points)
+        {
+            point.output = *outputIter;
+            std::advance(outputIter, 1);
+        }
+    }
+
+    void save(const std::string& filePath) const
+    {
+        auto file = std::ofstream(filePath, std::ios::binary | std::ios::out);
+        if (!file.is_open())
+        {
+            throw std::runtime_error(std::format("Error creating file: {:s}\n", filePath));
+        }
+
+        file << "t,raw,filtered\n";
+        for (const auto& point : m_points)
+        {
+            point.marshal(file);
+        }
     }
 
 private:
@@ -132,8 +169,18 @@ int main(int argc, char* argv[])
     auto csvFile = CsvFile(path.string());
 
     auto filter = Filter(filter_new());
-    std::vector<float> data;
-    filter_process(filter.get(), data.data(), data.size());
+    // do filtering
+
+    auto outputSamples = std::vector<float>(csvFile.getTimeSequence().size());
+    auto outIter = outputSamples.begin();
+
+    for (const auto& sample : csvFile.getInputSequence())
+    {
+        *outIter = filter_process_single(filter.get(), sample);
+        std::advance(outIter, 1);
+    }
+
+    csvFile.save(path.replace_filename("output.csv"));
 
     return 0;
 }

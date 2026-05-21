@@ -1,0 +1,2 @@
+# Here we do all stuff: build, run, plot & display
+cd build && cmake ../src -DCMAKE_BUILD_TYPE=Debug && cmake --build . && cd .. && ./build/app/app ./docs/signal.csv && gnuplot -persist -e "filename='./docs/output.csv'" ./docs/plot.gp
