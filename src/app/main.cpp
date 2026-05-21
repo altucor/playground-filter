@@ -180,6 +180,8 @@ int main(int argc, char* argv[])
         std::advance(outIter, 1);
     }
 
+    csvFile.setOutputSequence(outputSamples);
+
     csvFile.save(path.replace_filename("output.csv"));
 
     return 0;

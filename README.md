@@ -17,6 +17,13 @@ cd docs
 gnuplot -persist -e "filename='expected-output.csv'" plot.gp
 ```
 
+#### Simple
+```
+./run.sh signal
+# or
+./run.sh square
+```
+
 
 ## Tech notes
 The task is to filter out noise from the signal. The nature of noise usually have higher frequency. Let's assume that here we want to filter chunk of signal from sensor. Based on inputs we have, we can say that we need here `Low Pass Filter(LPF)` to filter out high frequecny noise out of useful signal.
