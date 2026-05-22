@@ -2,6 +2,13 @@
 
 ## Building
 
+#### Simple
+```
+./run.sh signal
+# or
+./run.sh square
+```
+
 ### Simple build and run
 ```
 mkdir -p build && cd build
@@ -15,13 +22,6 @@ cmake ../src -DCMAKE_BUILD_TYPE=Debug && cmake --build .
 brew install gnuplot
 cd docs
 gnuplot -persist -e "filename='expected-output.csv'" plot.gp
-```
-
-#### Simple
-```
-./run.sh signal
-# or
-./run.sh square
 ```
 
 

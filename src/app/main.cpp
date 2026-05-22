@@ -168,7 +168,7 @@ int main(int argc, char* argv[])
 
     auto csvFile = CsvFile(path.string());
 
-    auto filter = Filter(filter_new());
+    auto filter = Filter(filter_new(40));
     // do filtering
 
     auto outputSamples = std::vector<float>(csvFile.getTimeSequence().size());

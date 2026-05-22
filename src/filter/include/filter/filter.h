@@ -4,15 +4,11 @@
 #include <stdint.h>
 #include <stddef.h>
 
-// FIR which only looks behind
-
-// For simplicity it's easier to have same size for history and for coefficients
-#define FILTER_ORDER (5 - 1)
-
 typedef struct _filter_t
 {
-    float taps[FILTER_ORDER];
-    float previous[FILTER_ORDER];
+    size_t order;
+    float* taps;
+    float* previous;
 } filter_t;
 
 #ifdef __cplusplus
@@ -20,9 +16,11 @@ extern "C"
 {
 #endif
 
-filter_t* filter_new();
+filter_t* filter_new(const size_t order);
 void filter_free(filter_t* ctx);
+void filter_set_order(filter_t* ctx, const size_t order);
 float filter_process_single(filter_t* ctx, float sample);
+void filter_process(filter_t* ctx, const float* input, float* output, const size_t size);
 
 #ifdef __cplusplus
 }
