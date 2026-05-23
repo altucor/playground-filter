@@ -43,7 +43,9 @@ Filter order of FIR filter it basically `TAPS_COUNT-1`.
 Probably good to start from FIR as it is much simpler in implementation. Anyway it looks like it can be relatively easily upgraded to IIR
 
 
-
+### Window method
+Rectangular, Hann, Hamming, Blackman, Kaiser.
+Let's chose here `Blackman` as it should have more aggresive cutting knee.
 
 
 ## Docs & Useful Links

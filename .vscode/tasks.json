@@ -1,0 +1,25 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build-app-debug",
+      "type": "shell",
+      "command": "cd build && cmake ../src -DCMAKE_BUILD_TYPE=Debug && cmake --build .",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "build-app-release",
+      "type": "shell",
+      "command": "cmake ./src -DCMAKE_BUILD_TYPE=Release && cmake --build .",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": ["$gcc"]
+    }
+  ]
+}

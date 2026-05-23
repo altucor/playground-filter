@@ -1,0 +1,69 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "moving-average-square [debug]",
+      "type": "lldb",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/app/app",
+      "args": [
+        "--input=${workspaceFolder}/docs/square.csv",
+        "--output=${workspaceFolder}/docs/output.csv",
+        "--type=moving-average",
+        "--order=20"],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "externalConsole": false,
+      "preLaunchTask": "build-app-debug"
+    },
+    {
+      "name": "moving-average-signal [debug]",
+      "type": "lldb",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/app/app",
+      "args": [
+        "--input=${workspaceFolder}/docs/signal.csv",
+        "--output=${workspaceFolder}/docs/output.csv",
+        "--type=moving-average",
+        "--order=20"],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "externalConsole": false,
+      "preLaunchTask": "build-app-debug"
+    },
+    {
+      "name": "blackman-square [debug]",
+      "type": "lldb",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/app/app",
+      "args": [
+        "--input=${workspaceFolder}/docs/square.csv",
+        "--output=${workspaceFolder}/docs/output.csv",
+        "--type=blackman",
+        "--cutoff=500"],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "externalConsole": false,
+      "preLaunchTask": "build-app-debug"
+    },
+    {
+      "name": "blackman-signal [debug]",
+      "type": "lldb",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/app/app",
+      "args": [
+        "--input=${workspaceFolder}/docs/signal.csv",
+        "--output=${workspaceFolder}/docs/output.csv",
+        "--type=blackman",
+        "--cutoff=500"],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "externalConsole": false,
+      "preLaunchTask": "build-app-debug"
+    },
+  ]
+}

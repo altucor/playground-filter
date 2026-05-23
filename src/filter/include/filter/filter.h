@@ -11,19 +11,13 @@ typedef struct _filter_t
     float* previous;
 } filter_t;
 
-#ifdef __cplusplus
-extern "C"
-{
-#endif
-
-filter_t* filter_new(const size_t order);
+filter_t* filter_new();
 void filter_free(filter_t* ctx);
-void filter_set_order(filter_t* ctx, const size_t order);
+const size_t filter_get_order(filter_t* ctx);
+int filter_set_order(filter_t* ctx, const size_t order);
 float filter_process_single(filter_t* ctx, float sample);
 void filter_process(filter_t* ctx, const float* input, float* output, const size_t size);
-
-#ifdef __cplusplus
-}
-#endif
+int filter_init_moving_average(filter_t* ctx, const size_t order);
+int filter_init_blackman_window(filter_t* ctx, const float cutoffFrequency);
 
 #endif // FILTER_H
