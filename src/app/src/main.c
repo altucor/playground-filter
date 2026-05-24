@@ -28,7 +28,7 @@ int main(int argc, char* argv[])
     sequence_t* sequence = NULL;
     filter_t* filter = NULL;
 
-    if (-1 == config_from_args(&config, argc, argv))
+    if (argc < 2 || -1 == config_from_args(&config, argc, argv))
     {
         help(argv[0]);
         ret_code = -1;

@@ -9,10 +9,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
     C_STANDARD_REQUIRED ON
 )
 
-file(GLOB_RECURSE ${PROJECT_NAME}_SOURCES "src/**.c")
-
 target_include_directories(${PROJECT_NAME} INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/include/)
-target_sources(${PROJECT_NAME} PRIVATE ${${PROJECT_NAME}_SOURCES})
 
 target_sources(${PROJECT_NAME}
     PRIVATE

@@ -96,7 +96,7 @@ int config_from_args(config_t* ctx, int argc, char* argv[])
 
             if (0 == strcmp(value, "blackman"))
             {
-                ctx->filter_type = FILTER_TYPE_FIR_MOVING_AVERAGE;
+                ctx->filter_type = FILTER_TYPE_FIR_BLACKMAN;
             }
 
             KV_CLEAN
@@ -105,7 +105,13 @@ int config_from_args(config_t* ctx, int argc, char* argv[])
 
         if (0 == strcmp(key, "order"))
         {
-            ctx->order = atoll(value);
+            int temp = atoi(value);
+            if (temp < 0)
+            {
+                temp = 2;
+            }
+
+            ctx->order = temp;
 
             KV_CLEAN
             continue;
@@ -113,7 +119,13 @@ int config_from_args(config_t* ctx, int argc, char* argv[])
 
         if (0 == strcmp(key, "cutoff"))
         {
-            ctx->cutoff_frequency = atoll(value);
+            long long temp = atoll(value);
+            if (temp < 0 || temp > 500)
+            {
+                temp = 500;
+            }
+
+            ctx->cutoff_frequency = temp;
 
             KV_CLEAN
             continue;
