@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 4.0.0)
+cmake_minimum_required(VERSION 3.28.3)
 
 project(filter VERSION 0.0.1 LANGUAGES C)
 
@@ -15,13 +15,11 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     target_link_options(${PROJECT_NAME} PRIVATE -fsanitize=address)
 endif()
 
-target_include_directories(${PROJECT_NAME} INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/include/)
-
 target_sources(${PROJECT_NAME}
-    PRIVATE
+    PUBLIC
     src/filter.c
 
-    PRIVATE
+    PUBLIC
     FILE_SET HEADERS
     BASE_DIRS
     "${CMAKE_CURRENT_SOURCE_DIR}/include/"
