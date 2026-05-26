@@ -20,6 +20,7 @@ typedef struct _point_t
 
 point_t* point_new();
 void point_free(point_t* ctx);
+void point_reset(point_t* ctx);
 point_error_e point_unmarshal(point_t* ctx, const char* line);
 char* point_marshal(point_t* ctx);
 

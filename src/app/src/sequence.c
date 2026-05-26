@@ -7,7 +7,7 @@
 
 sequence_t* sequence_new()
 {
-    sequence_t* ctx = calloc(1, sizeof(sequence_t*));
+    sequence_t* ctx = calloc(1, sizeof(sequence_t));
     if (!ctx)
     {
         return NULL;
@@ -22,6 +22,14 @@ void sequence_free(sequence_t* ctx)
     {
         return;
     }
+
+    if (ctx->points)
+    {
+        free(ctx->points);
+        ctx->points = NULL;
+    }
+
+    ctx->point_count = 0;
 
     free(ctx);
 }
@@ -41,7 +49,7 @@ sequence_error_e sequence_from_csv(sequence_t* ctx, const char* path)
     int ret_code = SEQUENCE_ERROR_OK;
     FILE* file = NULL;
     bool header_seen = false;
-    point_t* point = NULL;
+    point_t point = {0};
     char* line = NULL;
     size_t size = 0;
     size_t line_size = 0;
@@ -62,14 +70,9 @@ sequence_error_e sequence_from_csv(sequence_t* ctx, const char* path)
             continue;
         }
 
-        point = point_new();
-        if (!point)
-        {
-            ret_code = SEQUENCE_ERROR_FAILED_TO_CREATE_NEW_POINT;
-            goto exit;
-        }
+        point_reset(&point);
 
-        if (point_unmarshal(point, line) != POINT_ERROR_OK)
+        if (point_unmarshal(&point, line) != POINT_ERROR_OK)
         {
             ret_code = SEQUENCE_ERROR_FAILED_TO_UNMARSHAL_POINT;
             goto exit;
@@ -78,7 +81,6 @@ sequence_error_e sequence_from_csv(sequence_t* ctx, const char* path)
         ctx->point_count++;
         ctx->points = realloc(ctx->points, ctx->point_count * sizeof(point_t));
         ctx->points[ctx->point_count - 1] = point;
-        point = NULL;
 
         free(line);
         line = NULL;
@@ -89,12 +91,6 @@ exit:
     {
         fclose(file);
         file = NULL;
-    }
-
-    if (point)
-    {
-        point_free(point);
-        point = NULL;
     }
 
     if (line)
@@ -129,7 +125,7 @@ sequence_error_e sequence_to_csv(sequence_t* ctx, const char* path)
 
     for (size_t i = 0; i < ctx->point_count; i++)
     {
-        if (out_line = point_marshal(ctx->points[i]), !out_line)
+        if (out_line = point_marshal(&ctx->points[i]), !out_line)
         {
             ret_code = SEQUENCE_ERROR_FAILED_TO_MARSHAL_POINT;
             goto exit;
@@ -171,7 +167,7 @@ sequence_error_e sequence_filter_with(sequence_t* ctx, filter_t* filter)
 
     for (size_t i = 0; i < ctx->point_count; i++)
     {
-        ctx->points[i]->output = filter_process_single(filter, ctx->points[i]->input);
+        ctx->points[i].output = filter_process_single(filter, ctx->points[i].input);
     }
 
     return SEQUENCE_ERROR_OK;

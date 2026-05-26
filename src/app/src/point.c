@@ -27,6 +27,18 @@ void point_free(point_t* ctx)
     free(ctx);
 }
 
+void point_reset(point_t* ctx)
+{
+    if (!ctx)
+    {
+        return;
+    }
+
+    ctx->time = 0.0f;
+    ctx->input = 0.0f;
+    ctx->output = 0.0f;
+}
+
 static int parse_value(const char* line, const size_t begin, const size_t end, float* out)
 {
     if (!line || !strlen(line) || end >= strlen(line) || begin >= strlen(line) || end <= begin || !out)

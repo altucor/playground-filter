@@ -19,7 +19,7 @@ typedef enum _sequence_error_e
 typedef struct _sequence_t
 {
     size_t point_count;
-    point_t** points;
+    point_t* points;
 } sequence_t;
 
 sequence_t* sequence_new();
